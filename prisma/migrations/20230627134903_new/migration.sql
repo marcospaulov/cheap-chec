@@ -10,7 +10,7 @@ CREATE TABLE "User" (
     "phone" TEXT NOT NULL,
     "birthdate" TEXT NOT NULL,
     "CEP" TEXT NOT NULL,
-    "number" TEXT NOT NULL,
+    "number" INTEGER NOT NULL,
     "city" TEXT NOT NULL,
     "UF" TEXT NOT NULL,
     "createdAT" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -31,6 +31,7 @@ CREATE TABLE "Rent" (
 -- CreateTable
 CREATE TABLE "Product" (
     "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
     "productType" TEXT NOT NULL,
     "productDescription" TEXT NOT NULL,
     "price" TEXT NOT NULL,
@@ -83,3 +84,6 @@ CREATE UNIQUE INDEX "User_CPF_key" ON "User"("CPF");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Product_name_key" ON "Product"("name");

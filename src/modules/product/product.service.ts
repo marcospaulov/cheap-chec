@@ -10,10 +10,17 @@ export class Product {
 				name: data.name
 			}
 		});
-
+		
 		if(productExist) throw new HttpError(401, 'produto já cadastrado');
+		
+		const {user, ...dat} = data;
 
-		const product = await prisma.product.create({data});
+		dat.userId = user.id;
+		
+		console.log(dat);
+		const product = await prisma.product.create({data:{
+			...dat
+		}});
 
 		return product;
 	}
@@ -24,7 +31,7 @@ export class Product {
 		return productExist;
 	}
 	
-	public async update(id: string, data: Partial<IProduct>){
+	public async update(productId: string, data: IProduct){
 		const productExist = await prisma.product.findUnique({
 			where: {
 				name: data.name
@@ -32,7 +39,7 @@ export class Product {
 		});
 		if(!productExist)throw new HttpError(404, 'Produto inesitente');
 		return await prisma.product.update({
-			data,
+			data:{id: productId, ...data},
 			where:{
 				id
 			}

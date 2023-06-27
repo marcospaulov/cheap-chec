@@ -32,10 +32,10 @@ export class ProductController {
 	}
 
 	public async update(req: Request, res: Response){
-		const {product: {id}, ...data} = req.body;
+		const {productId, ...data} = req.body;
 		const product = new Product();
 		try{
-			const result = await product.update(id, data);
+			const result = await product.update(productId, data);
 			return res.status(200).json(result);
 		}catch(error){
 			if(error instanceof HttpError){

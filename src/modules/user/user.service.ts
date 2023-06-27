@@ -21,10 +21,10 @@ export class User {
 		data.password = await bcrypt.hash(data.password, 10);
 		
 		const user = await prisma.user.create({data});
-
-		const {id, email} = user;
-
-		return {token: Token.create({id, email})};
+		
+		const {id} = user;
+		
+		return {token: Token.create({id})};
 	}
 
 	public async login(data: IUserLogin){
@@ -40,9 +40,9 @@ export class User {
 
 		if(!existe) throw new HttpError(401, 'senha invalida');
 
-		const {id, email} = user;
+		const {id} = user;
 		
-		return {token: Token.create({id, email})} ;
+		return {token: Token.create({id})} ;
 	}
 
 	public async findById(id: string){
