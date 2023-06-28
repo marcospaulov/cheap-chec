@@ -31,17 +31,23 @@ export class Product {
 		return productExist;
 	}
 	
-	public async update(productId: string, data: IProduct){
+	public async update(data: IProduct){
 		const productExist = await prisma.product.findUnique({
 			where: {
-				name: data.name
+				id: data.id
 			}
 		});
+	
+		const { user, ...dat } = data;
+
 		if(!productExist)throw new HttpError(404, 'Produto inesitente');
+		if(data.user.id != user.id) throw new HttpError(404, 'este produto não é deste usuário');
+
+
 		return await prisma.product.update({
-			data:{id: productId, ...data},
+			data: {...dat},
 			where:{
-				id
+				id: data.id
 			}
 		});
 	}
@@ -54,7 +60,7 @@ export class Product {
 		});
 
 		if(!productExist) throw new HttpError(404, 'Produto inesitente');
-
+		
 		return await prisma.product.delete({
 			where: {
 				id

@@ -9,6 +9,6 @@ export interface IProduct{
 	measure: string;
 	brand: string;
 	tissueType: string;
-	user?: userProductDTO
+	user: userProductDTO
 	userId: string;
 }

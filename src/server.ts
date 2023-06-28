@@ -18,5 +18,5 @@ app.use(productRoutes);
 
 app.listen( 3333, () => {
 	console.clear();
-	console.log('server is running');
+	console.log('server is running 🚀🚀');
 });

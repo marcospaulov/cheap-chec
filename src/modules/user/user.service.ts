@@ -42,7 +42,7 @@ export class User {
 
 		const {id} = user;
 		
-		return {token: Token.create({id})} ;
+		return {token: Token.create({id})};
 	}
 
 	public async findById(id: string){
@@ -68,12 +68,14 @@ export class User {
 
 		if(!user) throw new HttpError(404, 'usuário inesitente');
 
-		return await prisma.user.update({
+		const newUser = await prisma.user.update({
 			data,
 			where: {
 				id
 			}
 		});
+		
+		return newUser;
 	}
 
 	public async delete(id: string){

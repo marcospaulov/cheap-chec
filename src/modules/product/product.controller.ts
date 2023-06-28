@@ -6,6 +6,7 @@ export class ProductController {
 	
 	public async create(req: Request, res: Response){
 		const data = req.body;
+		console.log(data);
 		const product = new Product();
 		try{
 			const result = await product.create(data);
@@ -32,10 +33,10 @@ export class ProductController {
 	}
 
 	public async update(req: Request, res: Response){
-		const {productId, ...data} = req.body;
+		const data = req.body;
 		const product = new Product();
 		try{
-			const result = await product.update(productId, data);
+			const result = await product.update(data);
 			return res.status(200).json(result);
 		}catch(error){
 			if(error instanceof HttpError){
@@ -46,7 +47,7 @@ export class ProductController {
 	}
 	
 	public async delete(req: Request, res: Response){
-		const {id} = req.body.product;
+		const {id} = req.body;
 		const product = new Product();
 		try{
 			const result = await product.delete(id);

@@ -7,7 +7,7 @@ const productController = new ProductController();
 
 productRouter.post('/create', validateToken, productController.create);
 productRouter.get('/findMany', productController.findMany);
-productRouter.put('/:id', productController.update);
-productRouter.delete('/:id',productController.delete);
+productRouter.put('/update', validateToken, productController.update);
+productRouter.delete('/delete',productController.delete);
 
 export {productRouter};
