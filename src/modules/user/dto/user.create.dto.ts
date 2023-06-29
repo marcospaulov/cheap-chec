@@ -6,10 +6,11 @@ export interface UserCreateDTO{
 	lastName: string
 	password: string
 	sex: string
+	address: string
 	phone: string
 	birthdate: string
 	CEP: string
-	number: number
+	number: string
 	city: string
 	UF: string
 }

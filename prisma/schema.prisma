@@ -18,7 +18,8 @@ model User {
   phone           String
   birthdate       String
   CEP             String
-  number          Int
+  number          String
+  address         String
   city            String
   UF              String
   rent            Rent[]
@@ -59,7 +60,7 @@ model Rent {
 model ItensRentalRent {
   id        String   @id @default(uuid())
   productId String   @unique
-  rentId    String	 @unique
+  rentId    String   @unique
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   rent      Rent     @relation(fields: [rentId], references: [id], onDelete: Cascade)

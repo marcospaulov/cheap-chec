@@ -10,7 +10,8 @@ CREATE TABLE "User" (
     "phone" TEXT NOT NULL,
     "birthdate" TEXT NOT NULL,
     "CEP" TEXT NOT NULL,
-    "number" INTEGER NOT NULL,
+    "number" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
     "city" TEXT NOT NULL,
     "UF" TEXT NOT NULL,
     "createdAT" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -42,7 +43,7 @@ CREATE TABLE "Rent" (
     "userId" TEXT NOT NULL,
     "createdAT" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAT" DATETIME NOT NULL,
-    CONSTRAINT "Rent_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Rent_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -53,9 +54,9 @@ CREATE TABLE "ItensRentalRent" (
     "userId" TEXT NOT NULL,
     "createdAT" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAT" DATETIME NOT NULL,
-    CONSTRAINT "ItensRentalRent_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "ItensRentalRent_rentId_fkey" FOREIGN KEY ("rentId") REFERENCES "Rent" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "ItensRentalRent_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "ItensRentalRent_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "ItensRentalRent_rentId_fkey" FOREIGN KEY ("rentId") REFERENCES "Rent" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "ItensRentalRent_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -66,3 +67,9 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Product_name_key" ON "Product"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ItensRentalRent_productId_key" ON "ItensRentalRent"("productId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ItensRentalRent_rentId_key" ON "ItensRentalRent"("rentId");

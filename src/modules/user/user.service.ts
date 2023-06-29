@@ -8,6 +8,8 @@ import { IUserLogin } from './dto/user.login.dto';
 
 export class User {
 	public async create(data: UserCreateDTO){
+		console.log(data);
+		console.log('tamo aqui');
 		const userAlreadyExists = await prisma.user.findUnique({
 			where: {
 				email: data.email
