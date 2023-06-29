@@ -8,34 +8,22 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  CPF       String    @unique
-  email     String    @unique
-  name      String
-  lastName  String
-  password  String
-  sex       String
-  phone     String
-  birthdate String
-  CEP       String
-  number    Int
-  city      String
-  UF        String
-  rent      Rent[]
-  products  Product[]
-  createdAT DateTime  @default(now())
-  updateAT  DateTime  @updatedAt
-}
-
-model Rent {
   id              String            @id @default(uuid())
-  date            String
-  insuranceValue  String
-  userId          String
-  user            User              @relation(fields: [userId], references: [id])
-  itemsRentalRent ItemsRentalRent[]
-  payment         Payment[]
-  return          Return[]
+  CPF             String            @unique
+  email           String            @unique
+  name            String
+  lastName        String
+  password        String
+  sex             String
+  phone           String
+  birthdate       String
+  CEP             String
+  number          Int
+  city            String
+  UF              String
+  rent            Rent[]
+  products        Product[]
+  itensRentalRent ItensRentalRent[]
   createdAT       DateTime          @default(now())
   updateAT        DateTime          @updatedAt
 }
@@ -45,46 +33,37 @@ model Product {
   name               String            @unique
   productType        String
   productDescription String
-  price              String
+  price              Float             @default(0)
   measure            String
   brand              String
   tissueType         String
   userId             String
   user               User              @relation(fields: [userId], references: [id])
-  itemsRentalRent    ItemsRentalRent[]
-  return             Return[]
+  itemsRentalRent    ItensRentalRent[]
   createdAT          DateTime          @default(now())
   updateAT           DateTime          @updatedAt
 }
 
-model ItemsRentalRent {
-  rentId    String
-  productId String
-  rent      Rent     @relation(fields: [rentId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id])
-  createdAT DateTime @default(now())
-  updateAT  DateTime @updatedAt
-
-  @@id([rentId, productId])
+model Rent {
+  id              String            @id @default(uuid())
+  insuranceValue  Float             @default(0)
+  productsValue   Float             @default(0)
+  totalValue      Float             @default(0)
+  userId          String
+  createdAT       DateTime          @default(now())
+  updateAT        DateTime          @updatedAt
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ItemsRentalRent ItensRentalRent[]
 }
 
-model Payment {
-  id        String   @default(uuid())
-  rentId    String
-  rent      Rent     @relation(fields: [rentId], references: [id])
+model ItensRentalRent {
+  id        String   @id @default(uuid())
+  productId String   @unique
+  rentId    String	 @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rent      Rent     @relation(fields: [rentId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAT DateTime @default(now())
   updateAT  DateTime @updatedAt
-
-  @@id([id, rentId])
-}
-
-model Return {
-  rentId             String
-  productId          String
-  createdAT          DateTime @default(now())
-  returnConfirmation Boolean
-  rent               Rent     @relation(fields: [rentId], references: [id])
-  product            Product  @relation(fields: [productId], references: [id])
-
-  @@id([rentId, productId])
 }

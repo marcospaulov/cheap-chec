@@ -5,7 +5,7 @@ export interface IProduct{
 	name: string;
 	productType: string;
 	productDescription: string;
-	price: string;
+	price: number;
 	measure: string;
 	brand: string;
 	tissueType: string;

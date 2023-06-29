@@ -32,6 +32,21 @@ export class ProductController {
 		}
 	}
 
+	public async findByUser(req: Request, res: Response){
+		const {user} = req.body;
+		console.log(user);
+		const product = new Product();
+		try{
+			const result = await product.findByIdUser(user.id);
+			return res.status(201).json(result);
+		}catch(error){
+			if(error instanceof HttpError){
+				const data = {message: error.message};
+				return res.status(error.status).json(data);
+			}	
+		}
+	}
+
 	public async update(req: Request, res: Response){
 		const data = req.body;
 		const product = new Product();
@@ -47,10 +62,10 @@ export class ProductController {
 	}
 	
 	public async delete(req: Request, res: Response){
-		const {id} = req.body;
+		const {id, user} = req.body;
 		const product = new Product();
 		try{
-			const result = await product.delete(id);
+			const result = await product.delete(id, user);
 			return res.status(204).json(result);
 		}catch(error){
 			if(error instanceof HttpError){

@@ -1,10 +1,13 @@
 import express from 'express';
-import { userRoutes } from './routes/user';
-import { userRouter } from './routes/user/user.routes'; 
-import { productRoutes } from './routes/product';
 import cors from 'cors';
-import { productRouter } from './routes/product/product.routes';
+import { userRoutes } from './routes/user';
+import { productRoutes } from './routes/product';
+import { itensRentRoutes } from './routes/itensRent';
+import { rentRoutes } from './routes/rent';
+import { rentRouter } from './routes/rent/rent.routes';
 const app = express();
+
+const port = 3000;
 
 app.use(express.json());
 
@@ -12,11 +15,15 @@ app.use(cors());
 
 app.use(userRoutes);
 
-app.use(userRouter);
-
 app.use(productRoutes);
 
-app.listen( 3333, () => {
+app.use(itensRentRoutes);
+
+app.use(rentRouter);
+
+app.use(rentRoutes);
+
+app.listen( port, () => {
 	console.clear();
-	console.log('server is running 🚀🚀');
+	console.log('server is running 🚀🚀 on: http://localhost:' + port);
 });

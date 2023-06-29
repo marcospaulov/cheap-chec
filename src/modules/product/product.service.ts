@@ -1,5 +1,6 @@
 import { prisma } from '../../database/prisma.cliente.connect';
 import { HttpError } from '../../error/httperror';
+import { userProductDTO } from '../user/dto/user.product.dto';
 import { IProduct } from './dto/product.dto';
 
 export class Product {
@@ -18,6 +19,7 @@ export class Product {
 		dat.userId = user.id;
 		
 		console.log(dat);
+		
 		const product = await prisma.product.create({data:{
 			...dat
 		}});
@@ -26,8 +28,21 @@ export class Product {
 	}
 	
 	public async findMany(){
-		const productExist = await prisma.product.findMany({});
+		const productExist = await prisma.product.findMany();
+		console.log(productExist);
 		if(!productExist)throw new HttpError(404, 'Produto inesitente');
+		return productExist;
+	}
+
+	public async findByIdUser(id : string){
+		const productExist = await prisma.product.findMany({
+			where: {
+				userId: id
+			} 
+		}) ;
+
+		if(!productExist)throw new HttpError(404, 'usuário sem produtos');
+
 		return productExist;
 	}
 	
@@ -52,13 +67,14 @@ export class Product {
 		});
 	}
 	
-	public async delete(id: string){
+	public async delete(id: string, user: userProductDTO){
 		const productExist = await prisma.product.findUnique({
 			where: {
 				id
 			}
 		});
-
+		
+		if(id != user.id) throw new HttpError(404, 'este produto não é deste usuário');
 		if(!productExist) throw new HttpError(404, 'Produto inesitente');
 		
 		return await prisma.product.delete({
